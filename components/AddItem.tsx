@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, {FunctionComponent, useState} from 'react';
 import {
   View,
   Text,
@@ -8,13 +8,30 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
-const AddItem: FunctionComponent = () => {
+interface State {
+  addItem: any;
+}
+
+const AddItem: FunctionComponent<State> = ({addItem}) => {
+  const [text, setText] = useState('');
+  const handleChange = (textValue: string) => {
+    setText(textValue);
+  };
+  const handleSubmit = () => {
+    addItem(text);
+    setText('');
+  };
   return (
     <View>
-      <TextInput placeholder="Add Item..." style={styles.input} />
-      <TouchableOpacity style={styles.btn}>
+      <TextInput
+        placeholder="Add Item..."
+        style={styles.input}
+        onChangeText={handleChange}
+        value={text}
+      />
+      <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
         <Text style={styles.btnText}>
-          <Icon name="plus" size={20} /> 
+          <Icon name="plus" size={20} />
           Add Item
         </Text>
       </TouchableOpacity>
